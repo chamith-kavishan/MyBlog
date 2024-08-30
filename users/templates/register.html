@@ -1,0 +1,100 @@
+{% extends "app.html" %} {% block content %} {% comment %}
+<div class="row justify-content-center">
+  <div class="col-sm-6">
+    <h2 class="text-muted">Register</h2>
+    <form method="POST" action="{% url 'register' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="{{ form.username.id_for_label }}">Username:</label>
+        <input
+          type="text"
+          name="{{ form.username.name}}"
+          class="form-control"
+          value="{{form.username.value}}"
+        />
+        <span class="text-danger">{{form.username.errors}}</span>
+      </div>
+      <div class="form-group">
+        <label for="{{ form.password1.id_for_label }}">Password:</label>
+        <input
+          type="password"
+          name="{{ form.password1.name}}"
+          class="form-control"
+          value="{{form.password1.value}}"
+        />
+        <span class="text-danger">{{form.password1.errors}}</span>
+      </div>
+      <div class="form-group">
+        <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
+        <input
+          type="password"
+          name="{{ form.password2.name}}"
+          class="form-control"
+          value="{{form.password2.value}}"
+        />
+        <span class="text-danger">{{form.password2.errors}}</span>
+      </div>
+      <button type="submit" class="btn btn-dark">Submit</button>
+      <a href="{% url 'login' %}" class="btn btn-default">Login</a>
+    </form>
+  </div>
+</div>
+{% endcomment %}
+
+<div class="login-form-container">
+  <p class="your-spotlight" style="margin-bottom: 20px; margin-top: -10px">
+    Register
+  </p>
+
+  <form method="POST" action="{% url 'register' %}">
+    {% csrf_token %}
+    <div class="form-row">
+      <div class="form-col-25">
+        <label for="{{ form.username.id_for_label }}" class="form-label"
+          >Username</label
+        >
+      </div>
+      <input
+        type="username"
+        name="{{ form.username.name}}"
+        class="form-col-75 login-input"
+        value="{{form.username.value}}"
+      />
+      <span class="error">{{form.username.errors}}</span>
+    </div>
+    <div class="form-row">
+      <div class="form-col-25">
+        <label for="{{ form.password1.id_for_label }}" class="form-label"
+          >Password</label
+        >
+      </div>
+      <input
+        type="password"
+        name="{{ form.password1.name}}"
+        class="form-col-75 login-input"
+        value="{{form.password1.value}}"
+      />
+      <span class="error">{{form.password1.errors}}</span>
+    </div>
+    <div class="form-row">
+      <div class="form-col-25">
+        <label for="{{ form.password2.id_for_label }}" class="form-label"
+          >Confirm Password</label
+        >
+      </div>
+      <input
+        type="password"
+        name="{{ form.password2.name}}"
+        class="form-col-75 login-input"
+        value="{{form.password2.value}}"
+      />
+    </div>
+    <span class="error">{{form.password2.errors}}</span>
+    <div class="form-row button-row">
+      <button type="submit" class="add-button">REGISTER</button>
+      <a href="{% url 'login' %}" class="back-button"> LOGIN </a>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

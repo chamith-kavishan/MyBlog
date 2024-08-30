@@ -1,0 +1,116 @@
+{% extends "app.html" %} {% block content %} {% load static %}
+
+<div class="dashboard-page">
+  <div id="details-container" class="details-container">
+    <div id="name-container">
+      <p class="dashboard-name">
+        Hello, {% if user.name %} {{ user.name }} {% else %} {{ user.username }}
+        {% endif %}
+      </p>
+    </div>
+
+    <div id="photo-container" class="dashboard-image-container">
+      {% if user.post_image %}
+      <img
+        src="{{ user.post_image.url }}"
+        alt="Profile Photo"
+        class="dashboard-image"
+      />
+      {% else %}
+      <img
+        src="{% static 'images/user.png' %}"
+        alt="Profile Photo"
+        class="dashboard-image"
+      />
+      {% endif %}
+    </div>
+
+    <div id="bio-container" class="bio-container">
+      {% if user.bio %}
+      <p class="bio-label">Your Bio</p>
+      <p class="bio">{{ user.bio }}</p>
+      {% else %}
+      <p>To update you your Bio go to Update Profile</p>
+      {% endif %}
+    </div>
+    <div class="dashboard-button-row">
+      <button id="edit-bio-btn" class="update-profile-button">
+        UPDATE PROFILE
+      </button>
+      <a href="{% url 'logout' %}">
+        <button class="logout-button">LOGOUT</button>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="dashboard-form-container">
+  <form
+    id="edit-form"
+    method="post"
+    enctype="multipart/form-data"
+    style="display: none"
+  >
+    {% csrf_token %}
+    <div class="form-row">
+      <div class="form-col-25">
+        <label for="id_name" class="form-label">Name</label>
+      </div>
+      <div class="form-col-75">
+        <input
+          type="text"
+          id="id_name"
+          name="name"
+          value="{{ user.name }}"
+          class="form-input"
+        />
+      </div>
+    </div>
+    <span class="info"
+      >Please note that updating name does not change your login username</span
+    >
+    <div class="form-row">
+      <div class="form-col-25">
+        <label for="id_post_image" class="form-label">Profile Image</label>
+      </div>
+      <div class="form-col-75">
+        <input
+          type="file"
+          id="id_post_image"
+          name="post_image"
+          class="form-input"
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-col-25">
+        <label for="id_bio" class="form-label">Bio</label>
+      </div>
+      <div class="form-col-75">
+        <textarea id="id_bio" name="bio" class="form-textarea">
+{{ user.bio }}</textarea
+        >
+      </div>
+    </div>
+    <div class="form-row button-row">
+      <button type="submit" class="add-button">Update Profile</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const editBioBtn = document.getElementById("edit-bio-btn");
+    const editForm = document.getElementById("edit-form");
+    const detailsContainer = document.getElementById("details-container");
+
+    editBioBtn.addEventListener("click", toggleEditMode);
+
+    function toggleEditMode() {
+      editForm.style.display = "block";
+      detailsContainer.style.display = "none";
+    }
+  });
+</script>
+
+{% endblock %}

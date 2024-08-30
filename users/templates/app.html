@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Blog</title>
+    {% load static %}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/style.css' %}"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <header><nav>
+      <ul class="nav-list">
+        <li class=""><a href="{% url 'post_list' %}">Home</a></li>
+        <li class=""><a href="{% url 'user_post_list' %}">My Blogs</a></li>
+        <li class="">
+          <a href="{% url 'bookmarked_posts' %}">Bookmarked Blogs</a>
+        </li>
+        <li>
+          <a href="{% url 'dashboard' %}" class="btn btn-default">Acount</a>
+        </li>
+        <li></li>
+      </ul>
+    </nav></header>
+      <main>{% block content %} {% endblock %}</main>
+    </li>
+  </body>
+</html>

@@ -1,0 +1,111 @@
+{% extends "posts/base.html" %} {% block content %}
+
+<div class="blog-table-wrapper">
+  <p class="your-spotlight">YOUR SPOTLIGHT</p>
+
+  <div class="add-button-container">
+  <a href="{% url 'post_insert' %}" class="btn text-secondary px-0">
+    <button class="add-button">Add New</button>
+  </a>
+</div>
+{% if post_list %}
+<div class="table-container">
+  <table class="table-fill">
+    <thead>
+      <tr>
+        <th class="text-left">Title</th>
+        <th class="text-left">Content</th>
+        <th class="text-left">Image</th>
+        <th class="text-left">Published At</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for posts in post_list %}
+      <tr>
+        <td class="text-left">{{ posts.title }}</td>
+        <td class="text-left">{{ posts.content | safe }}</td>
+        <td class="text-left">
+          {% if posts.post_image %}
+          <img src="{{ posts.post_image.url }}" />
+          {% endif %}
+        </td>
+        <td class="text-left">{{ posts.created_at|date:"F j, Y" }}</td>
+        <td class="text-center">
+          <div class="action-button-container">
+            <a href="{% url 'post_update' posts.id %}" class="action-button">
+              <div>
+                <svg
+                  fill="#000000"
+                  height="8px"
+                  width="8px"
+                  version="1.1"
+                  id="Layer_1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  viewBox="0 0 512 512"
+                  xml:space="preserve"
+                >
+                  <g>
+                    <g>
+                      <path
+                        d="M492.505,19.51C479.922,6.928,463.194,0,445.401,0c-17.794,0-34.522,6.929-47.103,19.511L55.837,361.972l-2.395,2.394
+			l-18.404,50.858L0.015,512l96.776-35.023l50.858-18.404l344.856-344.857C518.478,87.745,518.478,45.484,492.505,19.51z
+			 M50.709,461.306l3.647-10.077l6.431,6.431L50.709,461.306z M92.374,446.228l-26.587-26.587l6.965-19.246l38.869,38.869
+			L92.374,446.228z M139.29,423.916l-51.191-51.191l250.704-250.703l51.19,51.19L139.29,423.916z M411.501,151.704l-51.19-51.19
+			l8.695-8.695l51.19,51.19L411.501,151.704z M470.996,92.208L441.705,121.5l-51.19-51.19l29.292-29.292
+			c6.836-6.835,15.925-10.6,25.594-10.6c9.67,0,18.759,3.765,25.596,10.601C485.11,55.132,485.11,78.095,470.996,92.208z"
+                      />
+                    </g>
+                  </g>
+                </svg>
+                Edit
+              </div>
+            </a>
+            <form
+              action="{% url 'post_delete' posts.id %}"
+              method="post"
+              class="d-inline"
+            >
+              {% csrf_token %}
+              <button type="submit" class="action-button">
+                <a class="action-button">
+                <svg
+                  fill="#000000"
+                  version="1.1"
+                  id="Capa_1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  width="px"
+                  height="10px"
+                  viewBox="0 0 439.039 439.039"
+                  xml:space="preserve"
+                >
+                  <g>
+                    <path
+                      d="M369.514,49.094H69.525c-6.903,0-12.5,5.597-12.5,12.5v50.561c0,6.904,5.597,12.5,12.5,12.5h8.529l34.731,303.308
+		c0.723,6.312,6.065,11.076,12.419,11.076h188.627c6.354,0,11.695-4.766,12.418-11.076l34.733-303.309h8.529
+		c6.903,0,12.5-5.596,12.5-12.5v-50.56C382.014,54.691,376.417,49.094,369.514,49.094z M82.025,74.094h274.988v25.561h-7.18H89.206
+		h-7.18V74.094z M302.682,414.041H136.355l-33.137-289.385H335.82L302.682,414.041z M382.014,27.625c0,6.903-5.598,12.5-12.5,12.5
+		c-4.172,0-7.867-2.044-10.138-5.186h-0.819h-5.828h-54.453h-4.568H79.664c-2.271,3.142-5.966,5.186-10.138,5.186
+		c-6.903,0-12.5-5.597-12.5-12.5v-5.186c0-6.903,5.597-12.5,12.5-12.5h216.512C287.22,4.264,292.251,0,298.275,0h54.453
+		c6.025,0,11.056,4.264,12.237,9.939h4.548c6.903,0,12.5,5.597,12.5,12.5V27.625L382.014,27.625z"
+                    />
+                  </g>
+                </svg>
+                Delete
+                <a>
+              </button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+  {% else %}
+    <p class="no-posts">Looks like your blog is craving some inspiration! How about starting a new chapter? Click 'Add New' to share your next great story.</p>
+  {% endif %}
+</div>
+
+{% endblock content %}

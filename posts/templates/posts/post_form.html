@@ -1,0 +1,64 @@
+{% extends "posts/base.html" %} {% block content %}
+
+<div class="form-container">
+  <p class="your-spotlight" style="margin-bottom: 20px; margin-top: -10px">
+    Inspire the World with Your Words
+  </p>
+
+  <form
+    action=""
+    method="post"
+    autocomplete="off"
+    enctype="multipart/form-data"
+  >
+    {% csrf_token %}
+    <div class="form-row">
+      <div class="form-col-25">
+        <label for="id_field_name" class="form-label">Title</label>
+      </div>
+      <div class="form-col-75">{{ form.title }}</div>
+    </div>
+    <div class="form-row">
+      <div class="form-col-25">
+        <label for="id_field_name" class="form-label">Content</label>
+      </div>
+      <div class="form-col-75">
+        <!-- Use safe filter to render HTML content -->
+        {{ form.content | safe }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-col-25">
+        <label for="id_field_name" class="form-label">Image</label>
+      </div>
+      <div class="form-col-75">{{ form.post_image }}</div>
+    </div>
+    <div class="form-row button-row">
+      <button type="submit" class="add-button">Submit</button>
+      <a href="{% url 'user_post_list' %}" class="back-button">
+        Back to list
+      </a>
+    </div>
+  </form>
+</div>
+
+<script
+  src="https://cdn.tiny.cloud/1/w6h2tri54zdhrnkkss2655ldtjzbn9qtn58kwhfi4imhhoul/tinymce/7/tinymce.min.js"
+  referrerpolicy="origin"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var contentField = document.getElementById("id_content");
+    contentField.removeAttribute("required");
+  });
+  tinymce.init({
+    selector: "textarea#id_content",
+    plugins: "link image code",
+    toolbar:
+      "undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code",
+    menubar: false,
+    statusbar: false,
+  });
+</script>
+
+{% endblock content %}

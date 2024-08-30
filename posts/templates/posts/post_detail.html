@@ -1,0 +1,78 @@
+{% extends "posts/base.html" %} {% block content %} {% load static %}
+
+<div class="single-blog-container">
+  <div class="author-details">
+    <div class="author-img-container">
+      {% if post.author.post_image %}
+      <img
+        src="{{ post.author.post_image.url }}"
+        class="single-blog-author-img"
+      />
+      {% else %}
+      <img
+        src="{% static 'images/user.png' %}"
+        class="single-blog-author-img"
+      />
+      {% endif %}
+    </div>
+    {% if post.author.name %}
+    <h4 class="author">{{ post.author.name }}</h4>
+    {% else %}
+    <h4 class="author">{{ post.author.username }}</h4>
+    {% endif %}
+    <h5 class="publish-date">{{ post.created_at|date:"F d, Y" }}</h5>
+  </div>
+  <div class="single-blog-title">{{ post.title }}</div>
+  <div class="single-blog-img-container">
+    <img src="{{ post.post_image.url }}" class="single-blog-img" />
+  </div>
+  <div class="single-blog-content">{{ post.content | safe }}</div>
+</div>
+<div class="bookmark-container">
+  {% if request.user.is_authenticated %} {% if is_bookmarked %}
+  <p><a href="{% url 'bookmark_post' post.id %}">Remove Bookmark</a></p>
+  {% else %}
+  <p><a href="{% url 'bookmark_post' post.id %}">Add Bookmark</a></p>
+  {% endif %}{% endif %}
+  <?xml version="1.0" encoding="iso-8859-1"?>
+  <svg
+    fill="#000000"
+    height="15px"
+    width="15px"
+    version="1.1"
+    id="Layer_1"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 512 512"
+    xml:space="preserve"
+  >
+    <g>
+      <g>
+        <path
+          d="M70.715,0v512L256,326.715L441.285,512V0H70.715z M411.239,439.462L256,284.224L100.761,439.462V30.046h310.477V439.462z"
+        />
+      </g>
+    </g>
+  </svg>
+</div>
+<div class="comment-container">
+  <div class="comments">
+    {% for comment in comments %}
+    <div class="comment">
+      <p>{{ comment.content }}</p>
+      <p>By: {{ comment.author }}</p>
+    </div>
+    {% empty %}
+    <p>No comments yet.</p>
+    {% endfor %}
+  </div>
+  <div class="comment-form">
+    <form method="post">
+      {% csrf_token %}
+      <div class="comment-input">{{ comment_form.content }}</div>
+      <button type="submit" class="submit-button">Submit Comment</button>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}
